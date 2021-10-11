@@ -11,7 +11,7 @@ import Photos
 
 public class ConfirmViewController: UIViewController {
 	
-	let imageView = UIImageView()
+    let imageView = UIImageView(frame: .init(x: 0, y: 0, width: 300, height: 600))
 	@IBOutlet weak var scrollView: UIScrollView!
 	@IBOutlet weak var cancelButton: UIButton!
 	@IBOutlet weak var confirmButton: UIButton!
