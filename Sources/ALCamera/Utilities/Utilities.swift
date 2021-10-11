@@ -15,9 +15,13 @@ internal func radians(_ degrees: CGFloat) -> CGFloat {
 
 internal func localizedString(_ key: String) -> String {
     var bundle: Bundle {
-        if Bundle.main.path(forResource: CameraGlobals.shared.stringsTable, ofType: "strings") != nil {
-            return Bundle.main
+//        if Bundle.main.path(forResource: CameraGlobals.shared.stringsTable, ofType: "strings") != nil {
+//            return Bundle.main
+//        }
+        if Bundle.module.url(forResource: CameraGlobals.shared.stringsTable, withExtension: "strings") != nil {
+            return Bundle.module
         }
+        
         return CameraGlobals.shared.bundle
     }
 
