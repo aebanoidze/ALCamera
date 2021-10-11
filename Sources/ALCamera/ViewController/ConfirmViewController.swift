@@ -11,7 +11,7 @@ import Photos
 
 public class ConfirmViewController: UIViewController {
 	
-    let imageView = UIImageView(frame: .init(x: 0, y: 0, width: 300, height: 600))
+    let imageView = UIImageView()
 	@IBOutlet weak var scrollView: UIScrollView!
 	@IBOutlet weak var cancelButton: UIButton!
 	@IBOutlet weak var confirmButton: UIButton!
@@ -164,10 +164,11 @@ public class ConfirmViewController: UIViewController {
     }
 
     private func prepareScrollView() {
-        let scale = calculateMinimumScale(view.bounds.size)
+        let minScale = calculateMinimumScale(view.bounds.size)
+        let curScale = calculateCurentScale(view.bounds.size)
 
-        scrollView.minimumZoomScale = scale
-        scrollView.zoomScale = scale
+        scrollView.minimumZoomScale = minScale
+        scrollView.zoomScale = curScale
 
         centerScrollViewContent()
     }
@@ -212,6 +213,19 @@ public class ConfirmViewController: UIViewController {
 
 		return min(scaleWidth, scaleHeight)
 	}
+    
+    private func calculateCurentScale(_ size: CGSize) -> CGFloat {
+        var _size = size
+        
+        guard let image = imageView.image else {
+            return 1
+        }
+        
+        let scaleWidth = _size.width / image.size.width
+        let scaleHeight = _size.height / image.size.height
+
+        return min(scaleWidth, scaleHeight)
+    }
 	
 	private func centerScrollViewContent() {
         guard let image = imageView.image else {
