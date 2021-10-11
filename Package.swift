@@ -20,9 +20,9 @@ let package = Package(
             dependencies: [],
             path: "Sources/ALCamera",
             resources: [
-                .process("ALCameraViewController/CameraViewAssets.xcassets"),
-                .process("ALCameraViewController/ViewController/ConfirmViewController.xib"),
-                .process("ALCameraViewController/CameraView.strings")
+                .process("CameraViewAssets.xcassets"),
+                .process("ViewController/ConfirmViewController.xib"),
+                .process("CameraView.strings")
             ]
         )
     ]
