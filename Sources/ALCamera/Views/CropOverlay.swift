@@ -202,7 +202,7 @@ internal class CropOverlay: UIView {
     @objc func move(gestureRecognizer: UIPanGestureRecognizer) {
         if isResizable, let button = gestureRecognizer.view as? UIButton {
             if gestureRecognizer.state == .began || gestureRecognizer.state == .changed {
-                let translation = gestureRecognizer.translation(in: self)
+                var translation = gestureRecognizer.translation(in: self)
                 let realMinimumSize = CGSize(width: minimumSize.width + 2 * outterGap,
                                              height: minimumSize.height + 2 * outterGap)
 
@@ -210,6 +210,13 @@ internal class CropOverlay: UIView {
 
                 switch button {
                 case buttons[0]:    // Top Left
+
+                    if translation.x < translation.y {
+                        translation.y = translation.x
+                    } else {
+                        translation.x = translation.y
+                    }
+                    
                     let hasEnoughWidth = frame.size.width - translation.x >= realMinimumSize.width
                     let hasEnoughHeight = frame.size.height - translation.y >= realMinimumSize.height
 
@@ -221,6 +228,12 @@ internal class CropOverlay: UIView {
                                       width: frame.size.width - xPossibleTranslation,
                                       height: frame.size.height - yPossibleTranslation)
                 case buttons[1]:    // Top Right
+                    if translation.x > translation.y {
+                        translation.y = translation.x * -1
+                    } else {
+                        translation.x = translation.y * - 1
+                    }
+                    
                     let hasEnoughWidth = frame.size.width + translation.x >= realMinimumSize.width
                     let hasEnoughHeight = frame.size.height - translation.y >= realMinimumSize.height
 
@@ -232,6 +245,11 @@ internal class CropOverlay: UIView {
                                       width: frame.size.width + xPossibleTranslation,
                                       height: frame.size.height - yPossibleTranslation)
                 case buttons[2]:    // Bottom Left
+                    if translation.x < translation.y {
+                        translation.y = translation.x * -1
+                    } else {
+                        translation.x = translation.y * -1
+                    }
                     let hasEnoughWidth = frame.size.width - translation.x >= realMinimumSize.width
                     let hasEnoughHeight = frame.size.height + translation.y >= realMinimumSize.height
 
@@ -243,6 +261,12 @@ internal class CropOverlay: UIView {
                                       width: frame.size.width - xPossibleTranslation,
                                       height: frame.size.height + yPossibleTranslation)
                 case buttons[3]:    // Bottom Right
+                    if translation.x > translation.y {
+                        translation.y = translation.x
+                    } else {
+                        translation.x = translation.y
+                    }
+                    
                     let hasEnoughWidth = frame.size.width + translation.x >= realMinimumSize.width
                     let hasEnoughHeight = frame.size.height + translation.y >= realMinimumSize.height
 
