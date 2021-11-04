@@ -231,7 +231,7 @@ internal class CropOverlay: UIView {
                     if translation.x > translation.y {
                         translation.y = translation.x * -1
                     } else {
-                        translation.x = translation.y * - 1
+                        translation.x = translation.y * -1
                     }
                     
                     let hasEnoughWidth = frame.size.width + translation.x >= realMinimumSize.width
