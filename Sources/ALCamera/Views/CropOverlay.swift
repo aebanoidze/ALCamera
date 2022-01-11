@@ -205,6 +205,8 @@ internal class CropOverlay: UIView {
                 var translation = gestureRecognizer.translation(in: self)
                 let realMinimumSize = CGSize(width: minimumSize.width + 2 * outterGap,
                                              height: minimumSize.height + 2 * outterGap)
+                let realMaximumSize = CGSize(width: self.superview?.frame.size.width ?? frame.size.width,
+                                             height: self.superview?.frame.size.height ?? frame.size.height)
 
                 var newFrame: CGRect
 
@@ -217,11 +219,33 @@ internal class CropOverlay: UIView {
                         translation.x = translation.y
                     }
                     
-                    let hasEnoughWidth = frame.size.width - translation.x >= realMinimumSize.width
-                    let hasEnoughHeight = frame.size.height - translation.y >= realMinimumSize.height
+                    let hasEnoughWidth = (frame.size.width - translation.x >= realMinimumSize.width)
+                                        && (frame.size.width - translation.x <= realMaximumSize.width)
+                    let hasEnoughHeight = (frame.size.height - translation.y >= realMinimumSize.height)
+                                        && (frame.size.height - translation.y <= realMaximumSize.height)
 
-                    let xPossibleTranslation = hasEnoughWidth ? translation.x : 0
-                    let yPossibleTranslation = hasEnoughHeight ? translation.y : 0
+                    if hasEnoughWidth {
+                        print("has enough width")
+                    } else {
+                        print("has not enough width")
+                    }
+                    
+                    if hasEnoughHeight {
+                        print("has enough height")
+                    } else {
+                        print("has not enough height")
+                    }
+                    
+                    var xPossibleTranslation: CGFloat = 0.0
+                    var yPossibleTranslation: CGFloat = 0.0
+                    
+                    if hasEnoughWidth && hasEnoughHeight {
+                        xPossibleTranslation = translation.x
+                        yPossibleTranslation = translation.y
+                    }
+                    
+//                    let xPossibleTranslation = hasEnoughWidth ? translation.x : 0
+//                    let yPossibleTranslation = hasEnoughHeight ? translation.y : 0
 
                     newFrame = CGRect(x: frame.origin.x + xPossibleTranslation,
                                       y: frame.origin.y + yPossibleTranslation,
@@ -234,11 +258,22 @@ internal class CropOverlay: UIView {
                         translation.x = translation.y * -1
                     }
                     
-                    let hasEnoughWidth = frame.size.width + translation.x >= realMinimumSize.width
-                    let hasEnoughHeight = frame.size.height - translation.y >= realMinimumSize.height
+                    let hasEnoughWidth = (frame.size.width + translation.x >= realMinimumSize.width)
+                                        && (frame.size.width + translation.x <= realMaximumSize.width)
+                    let hasEnoughHeight = (frame.size.height - translation.y >= realMinimumSize.height)
+                                        && (frame.size.height - translation.y <= realMaximumSize.height)
 
-                    let xPossibleTranslation = hasEnoughWidth ? translation.x : 0
-                    let yPossibleTranslation = hasEnoughHeight ? translation.y : 0
+                    
+                    var xPossibleTranslation: CGFloat = 0.0
+                    var yPossibleTranslation: CGFloat = 0.0
+                    
+                    if hasEnoughWidth && hasEnoughHeight {
+                        xPossibleTranslation = translation.x
+                        yPossibleTranslation = translation.y
+                    }
+                    
+                    //let xPossibleTranslation = hasEnoughWidth ? translation.x : 0
+                    //let yPossibleTranslation = hasEnoughHeight ? translation.y : 0
 
                     newFrame = CGRect(x: frame.origin.x,
                                       y: frame.origin.y + yPossibleTranslation,
@@ -250,11 +285,21 @@ internal class CropOverlay: UIView {
                     } else {
                         translation.x = translation.y * -1
                     }
-                    let hasEnoughWidth = frame.size.width - translation.x >= realMinimumSize.width
-                    let hasEnoughHeight = frame.size.height + translation.y >= realMinimumSize.height
+                    let hasEnoughWidth = (frame.size.width - translation.x >= realMinimumSize.width)
+                                       && (frame.size.width - translation.x <= realMaximumSize.width)
+                    let hasEnoughHeight = (frame.size.height + translation.y >= realMinimumSize.height)
+                                        && (frame.size.height + translation.y <= realMaximumSize.height)
 
-                    let xPossibleTranslation = hasEnoughWidth ? translation.x : 0
-                    let yPossibleTranslation = hasEnoughHeight ? translation.y : 0
+                    var xPossibleTranslation: CGFloat = 0.0
+                    var yPossibleTranslation: CGFloat = 0.0
+                    
+                    if hasEnoughWidth && hasEnoughHeight {
+                        xPossibleTranslation = translation.x
+                        yPossibleTranslation = translation.y
+                    }
+                    
+                    //let xPossibleTranslation = hasEnoughWidth ? translation.x : 0
+                    //let yPossibleTranslation = hasEnoughHeight ? translation.y : 0
 
                     newFrame = CGRect(x: frame.origin.x + xPossibleTranslation,
                                       y: frame.origin.y,
@@ -267,11 +312,21 @@ internal class CropOverlay: UIView {
                         translation.x = translation.y
                     }
                     
-                    let hasEnoughWidth = frame.size.width + translation.x >= realMinimumSize.width
-                    let hasEnoughHeight = frame.size.height + translation.y >= realMinimumSize.height
+                    let hasEnoughWidth = (frame.size.width + translation.x >= realMinimumSize.width)
+                                        && (frame.size.width + translation.x <= realMaximumSize.width)
+                    let hasEnoughHeight = (frame.size.height + translation.y >= realMinimumSize.height)
+                                        && (frame.size.height + translation.y <= realMaximumSize.height)
 
-                    let xPossibleTranslation = hasEnoughWidth ? translation.x : 0
-                    let yPossibleTranslation = hasEnoughHeight ? translation.y : 0
+                    var xPossibleTranslation: CGFloat = 0.0
+                    var yPossibleTranslation: CGFloat = 0.0
+                    
+                    if hasEnoughWidth && hasEnoughHeight {
+                        xPossibleTranslation = translation.x
+                        yPossibleTranslation = translation.y
+                    }
+                    
+                    //let xPossibleTranslation = hasEnoughWidth ? translation.x : 0
+                    //let yPossibleTranslation = hasEnoughHeight ? translation.y : 0
 
                     newFrame = CGRect(x: frame.origin.x,
                                       y: frame.origin.y,
@@ -294,8 +349,22 @@ internal class CropOverlay: UIView {
             }
         } else if isMovable {
             if gestureRecognizer.state == .began || gestureRecognizer.state == .changed {
-                let translation = gestureRecognizer.translation(in: self)
+                var translation = gestureRecognizer.translation(in: self)
 
+                if frame.origin.x + translation.x < 0 {
+                    translation.x = -1 * frame.origin.x
+                } else if frame.origin.x + translation.x + frame.size.width > self.superview?.frame.self.width ?? frame.size.width {
+                    //translation.x = (self.superview?.frame.self.width ?? frame.size.width) - frame.size.width
+                    translation.x = 0
+                }
+                
+                if frame.origin.y + translation.y < 0 {
+                    translation.y = -1 * frame.origin.y
+                } else if frame.origin.y + translation.y + frame.size.height > self.superview?.frame.size.height ?? frame.size.height {
+                    //translation.y = (self.superview?.frame.size.height ?? frame.size.height) - frame.size.height
+                    translation.y = 0
+                }
+                
                 let newFrame = CGRect(x: frame.origin.x + translation.x,
                                       y: frame.origin.y + translation.y,
                                       width: frame.size.width,
