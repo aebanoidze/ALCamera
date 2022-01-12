@@ -223,7 +223,7 @@ public class CameraView: UIView {
         guard preview != nil else {
             return
         }
-        switch UIApplication.shared.statusBarOrientation {
+        switch (UIApplication.shared.windows.first?.windowScene?.interfaceOrientation ?? .portrait) {
             case .portrait:
               preview?.connection?.videoOrientation = AVCaptureVideoOrientation.portrait
               break

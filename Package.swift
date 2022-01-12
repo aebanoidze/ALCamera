@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "ALCamera",
-    platforms: [.iOS(.v12)],
+    platforms: [.iOS(.v13)],
     products: [
         .library(
             name: "ALCamera",
@@ -22,6 +22,7 @@ let package = Package(
             resources: [
                 .process("CameraViewAssets.xcassets"),
                 .process("ViewController/ConfirmViewController.xib"),
+                .process("ViewController/Confirm.storyboard"),
                 .process("CameraView.strings")
             ]
         )

@@ -24,7 +24,9 @@ public extension CameraViewController {
 
         imagePicker.onSelectionComplete = { [weak imagePicker] asset in
             if let asset = asset {
-                let confirmController = ConfirmViewController(asset: asset, croppingParameters: croppingParameters)
+                let confirmController = ConfirmViewController.fromStoryboard()
+                confirmController.load(asset: asset, croppingParameters: croppingParameters)
+                //let confirmController = ConfirmViewController(asset: asset, croppingParameters: croppingParameters)
                 confirmController.onComplete = { [weak imagePicker] image, asset in
                     if let image = image, let asset = asset {
                         completion(image, asset)
@@ -209,7 +211,8 @@ open class CameraViewController: UIViewController {
             didUpdateViews = true
         }
         
-        let statusBarOrientation = UIApplication.shared.statusBarOrientation
+        let statusBarOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation ?? .portrait
+        //UIApplication.shared.statusBarOrientation
         let portrait = statusBarOrientation.isPortrait
         
         configCameraButtonEdgeConstraint(statusBarOrientation)
@@ -292,7 +295,8 @@ open class CameraViewController: UIViewController {
     override open func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
-        lastInterfaceOrientation = UIApplication.shared.statusBarOrientation
+        //lastInterfaceOrientation = UIApplication.shared.statusBarOrientation
+        lastInterfaceOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation ?? .portrait
         if animationRunning {
             return
         }
@@ -547,8 +551,10 @@ open class CameraViewController: UIViewController {
         guard let device = cameraView.device else {
             return
         }
-  
+        
+        
         let image = UIImage(named: flashImage(device.flashMode),
+        //let image = UIImage(named: flashImage(AVCapturePhotoSettings.flashMode),
                             in: CameraGlobals.shared.bundle,
                             compatibleWith: nil)
         
@@ -573,7 +579,9 @@ open class CameraViewController: UIViewController {
     }
 	
 	private func startConfirmController(uiImage: UIImage) {
-		let confirmViewController = ConfirmViewController(image: uiImage, croppingParameters: croppingParameters)
+		//let confirmViewController = ConfirmViewController(image: uiImage, croppingParameters: croppingParameters)
+        let confirmViewController = ConfirmViewController.fromStoryboard()
+        confirmViewController.load(image: uiImage, croppingParameters: croppingParameters)
 		confirmViewController.onComplete = { [weak self] image, asset in
 			defer {
                 self?.cameraView.startSession()
@@ -592,7 +600,9 @@ open class CameraViewController: UIViewController {
 	}
 	
     private func startConfirmController(asset: PHAsset) {
-        let confirmViewController = ConfirmViewController(asset: asset, croppingParameters: croppingParameters)
+        //let confirmViewController = ConfirmViewController(asset: asset, croppingParameters: croppingParameters)
+        let confirmViewController = ConfirmViewController.fromStoryboard()
+        confirmViewController.load(asset: asset, croppingParameters: croppingParameters)
         confirmViewController.onComplete = { [weak self] image, asset in
             defer {
                 self?.cameraView.startSession()
@@ -612,7 +622,7 @@ open class CameraViewController: UIViewController {
 
     private func showSpinner() -> UIActivityIndicatorView {
         let spinner = UIActivityIndicatorView()
-        spinner.style = .white
+        spinner.style = UIActivityIndicatorView.Style.medium
         spinner.center = view.center
         spinner.startAnimating()
         

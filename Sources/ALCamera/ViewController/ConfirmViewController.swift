@@ -25,7 +25,7 @@ public class ConfirmViewController: UIViewController {
     private var cropOverlayHeightConstraint = NSLayoutConstraint()
     private var isFirstLayout = true
 	
-    var croppingParameters: CroppingParameters {
+    var croppingParameters: CroppingParameters = CroppingParameters() {
         didSet {
             cropOverlay.isResizable = croppingParameters.allowResizing
             cropOverlay.minimumSize = croppingParameters.minimumSize
@@ -72,28 +72,53 @@ public class ConfirmViewController: UIViewController {
                       height: cropOverlayWidth)
     }
 	
-	public var onComplete: CameraViewCompletion?
+	public var onComplete: CameraViewCompletion? = nil
 
-	let asset: PHAsset?
-	let image: UIImage?
+	var asset: PHAsset? = nil
+	var image: UIImage? = nil
 	
-	public init(image: UIImage, croppingParameters: CroppingParameters) {
-		self.croppingParameters = croppingParameters
-		self.asset = nil
-		self.image = image
-		super.init(nibName: "ConfirmViewController", bundle: CameraGlobals.shared.bundle)
-	}
-	
-	public init(asset: PHAsset, croppingParameters: CroppingParameters) {
-		self.croppingParameters = croppingParameters
-		self.asset = asset
-		self.image = nil
-		super.init(nibName: "ConfirmViewController", bundle: CameraGlobals.shared.bundle)
-	}
-	
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-	}
+//	public init(image: UIImage, croppingParameters: CroppingParameters) {
+//		self.croppingParameters = croppingParameters
+//		self.asset = nil
+//		self.image = image
+//		super.init(nibName: "ConfirmViewController", bundle: CameraGlobals.shared.bundle)
+//	}
+//
+//	public init(asset: PHAsset, croppingParameters: CroppingParameters) {
+//		self.croppingParameters = croppingParameters
+//		self.asset = asset
+//		self.image = nil
+//		super.init(nibName: "ConfirmViewController", bundle: CameraGlobals.shared.bundle)
+//	}
+//
+//    public required init?(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//	}
+    
+    public func load(asset: PHAsset, croppingParameters: CroppingParameters) {
+        self.croppingParameters = croppingParameters
+        self.asset = asset
+        self.image = nil
+    }
+    
+    public func load(image: UIImage, croppingParameters: CroppingParameters) {
+        self.croppingParameters = croppingParameters
+        self.asset = nil
+        self.image = image
+    }
+    
+    open class func fromStoryboard() -> Self {
+        return UIStoryboard.init(name: "Confirm", bundle: CameraGlobals.shared.bundle).instantiateViewController(identifier: "confirmVC")
+    }
+    
+//    static func fromStoryBoard() -> Self {
+//        //return
+//
+//
+////        let storyboard = UIStoryboard(name: "Confirm", bundle: CameraGlobals.shared.bundle).ini
+////        guard let vc = storyboard.instantiateViewController(withIdentifier: "confirmVC") as? ConfirmViewController { return ConfirmViewController() }
+////        return vc
+//    }
 	
 	public override var prefersStatusBarHidden: Bool {
 		return true
@@ -215,7 +240,7 @@ public class ConfirmViewController: UIViewController {
 	}
     
     private func calculateCurentScale(_ size: CGSize) -> CGFloat {
-        var _size = size
+        let _size = size
         
         guard let image = imageView.image else {
             return 1
@@ -314,7 +339,7 @@ public class ConfirmViewController: UIViewController {
 	
 	func showSpinner() {
 		spinner = UIActivityIndicatorView()
-        spinner!.style = .white
+        spinner!.style = UIActivityIndicatorView.Style.medium
         spinner!.center = centeredView.center
 		spinner!.startAnimating()
 		
