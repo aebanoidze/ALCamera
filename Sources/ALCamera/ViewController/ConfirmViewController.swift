@@ -186,6 +186,9 @@ public class ConfirmViewController: UIViewController {
         scrollView.addSubview(imageView)
         scrollView.delegate = self
         scrollView.maximumZoomScale = 1
+        
+        //cropOverlay.maxY = self.centeredView.frame.height
+        cropOverlay.maxY = self.scrollViewVisibleSize.height
     }
 
     private func prepareScrollView() {

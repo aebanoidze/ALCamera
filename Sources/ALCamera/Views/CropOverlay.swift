@@ -37,6 +37,7 @@ internal class CropOverlay: UIView {
     var isResizable: Bool = false
     var isMovable: Bool = false
     var minimumSize: CGSize = CGSize.zero
+    var maxY: CGFloat?
     weak var delegate: CropOverlayDelegate?
     
     var croppedRect: CGRect {
@@ -304,7 +305,7 @@ internal class CropOverlay: UIView {
                         //translation.x = -1 * frame.origin.x
                         translation.x = 0
                         translation.y = 0
-                    } else if (frame.origin.x + translation.x + frame.size.width > self.superview?.frame.self.width ?? frame.size.width) || (frame.origin.y + translation.y + frame.size.height > self.superview?.frame.size.height ?? frame.size.height) {
+                    } else if (frame.origin.x + translation.x + frame.size.width > self.superview?.frame.self.width ?? frame.size.width) || (frame.origin.y + translation.y + frame.size.height > self.maxY ?? self.superview?.frame.size.height ?? frame.size.height) {
                         //translation.x = (self.superview?.frame.self.width ?? frame.size.width) - frame.size.width
                         translation.x = 0
                         translation.y = 0
@@ -338,7 +339,7 @@ internal class CropOverlay: UIView {
                         //translation.x = -1 * frame.origin.x
                         translation.x = 0
                         translation.y = 0
-                    } else if (frame.origin.x + translation.x + frame.size.width > self.superview?.frame.self.width ?? frame.size.width) || (frame.origin.y + translation.y + frame.size.height > self.superview?.frame.size.height ?? frame.size.height) {
+                    } else if (frame.origin.x + translation.x + frame.size.width > self.superview?.frame.self.width ?? frame.size.width) || (frame.origin.y + translation.y + frame.size.height > self.maxY ?? self.superview?.frame.size.height ?? frame.size.height) {
                         //translation.x = (self.superview?.frame.self.width ?? frame.size.width) - frame.size.width
                         translation.x = 0
                         translation.y = 0
@@ -390,7 +391,7 @@ internal class CropOverlay: UIView {
                 
                 if frame.origin.y + translation.y < 0 {
                     translation.y = -1 * frame.origin.y
-                } else if frame.origin.y + translation.y + frame.size.height > self.superview?.frame.size.height ?? frame.size.height {
+                } else if frame.origin.y + translation.y + frame.size.height > self.maxY ?? self.superview?.frame.size.height ?? frame.size.height {
                     //translation.y = (self.superview?.frame.size.height ?? frame.size.height) - frame.size.height
                     translation.y = 0
                 }
